@@ -1,145 +1,343 @@
 # React.js Assignment
 ## Student Directory Dashboard
 
-**Course:** React.js Fundamentals
-**Duration:** [Fill in — suggested 2 weeks]
-**Submission Format:** GitHub repo link OR zipped project folder
+**Course:** React.js 
+**Submission Format:** GitHub repo link
+
+### Git Clone
+```
+git clone https://arifulatwork-admin@bitbucket.org/arifulatwork-admin/react-js.git
+```
+
+### Free API
+```
+https://jsonplaceholder.typicode.com/users
+```
+
+This API returns 10 users with:
+- id
+- name
+- email
+- phone
+- website
+- company
+- address
+
+### Objective
+Build a Student Directory where users can:
+- Fetch students from an API
+- Search students
+- Add new students
+- Edit students
+- Delete students
+- Show student details
+- Filter students
+- Toggle dark mode
+- Show loading
+- Show errors
+- Share data between components
+
+### Instructions
+1. Complete every part below in your own project.
+2. Follow the folder structure given at the end.
+3. Do not hard-code student data — everything must come from state and the API.
+4. Comment your code where the logic may not be obvious.
 
 ---
 
-### Instructions to Students
-1. Build a single React application called **Student Directory Dashboard** that fulfills every requirement below.
-2. Use the free API: `https://jsonplaceholder.typicode.com/users`
-3. Organize your code using the folder structure provided at the end of this paper.
-4. Attempt every question — partial or incomplete attempts are still worth submitting.
-5. Comment your code where the logic may not be obvious.
-6. No copy-pasted solutions from AI tools without understanding — you may be asked to explain any part of your code during evaluation.
+## Part 1 - Fetch Data (useEffect + API)
 
----
+When the page loads:
+- fetch users from the API
+- save them in state
 
-## Section A: Data Fetching & App States
+Example:
+```jsx
+useEffect(() => {
+  fetch("https://jsonplaceholder.typicode.com/users")
+    .then(res => res.json())
+    .then(data => setStudents(data));
+}, []);
+```
 
-**Q1.** Using `useEffect` and the Fetch API, load all students from `https://jsonplaceholder.typicode.com/users` when the app first loads, and store the result in state.
+## Part 2 - Loading Screen
 
-**Q2.** While the data is loading, display the message:
+While fetching, show:
 ```
 Loading Students...
 ```
-Once loading finishes, display the student list instead.
+When finished, display students.
 
-**Q3.** Simulate or handle an API failure (e.g., using a try/catch or `.catch()`), and display:
+## Part 3 - Error Handling
+
+If the API fails, show:
 ```
 Something went wrong.
 ```
-Explain in a code comment what would cause this branch to run.
 
----
+## Part 4 - Display Students (map)
 
-## Section B: Displaying Data
+Display:
+```
+Ahmed
+[email protected]
+0123456789
 
-**Q4.** Using `.map()`, render every student as a card showing:
-- Name
-- Email
-- Phone
+John
+[email protected]
+...
+```
 
-Do **not** hard-code student data — it must come from state.
+Must use:
+```
+map()
+```
 
----
+## Part 5 - Search Student
 
-## Section C: Search & Filter
+Create:
+```jsx
+<input />
+```
 
-**Q5.** Add a search `<input>` above the student list. Use a controlled input (`value` + `onChange`).
+Search by:
+- name
 
-**Q6.** Using `.filter()`, show only students whose name matches the search text. Typing `Lea` should show only *Leanne Graham*.
+Must use:
+```
+filter()
+```
 
-**Q7.** Make the search case-insensitive using `.toLowerCase()`. Typing `leanne` (all lowercase) must still match *Leanne Graham*.
+Example:
+Typing
+```
+Lea
+```
+Shows only
+```
+Leanne Graham
+```
 
----
+## Part 6 - Case Insensitive Search
 
-## Section D: Add, Edit, Delete (CRUD)
+Searching
+```
+leanne
+```
+should still find
+```
+Leanne Graham
+```
 
-**Q8.** Build a form with three controlled inputs — Name, Email, Phone — and an **Add Student** button. On submit, the new student should appear instantly in the list without a page reload.
+Hint:
+```
+toLowerCase()
+```
 
-**Q9.** Add a **Delete** button on every student card. Clicking it should remove that student using `.filter()`. It must not affect any other student.
+## Part 7 - Add Student
 
-**Q10.** Add an **Edit** button on every student card. Clicking it should:
-- Pre-fill a form with that student's current values
-- Show a **Save** button
-- On save, update that specific student using `.map()` (not delete-and-re-add)
+Create a form.
 
----
+Inputs:
+```
+Name
+Email
+Phone
+```
 
-## Section E: Conditional Rendering
+Button:
+```
+Add Student
+```
 
-**Q11.** If `students.length === 0`, display:
+After clicking:
+The new student appears instantly.
+
+## Part 8 - Delete Student
+
+Every card has:
+```
+Delete
+```
+
+Button:
+Remove that student.
+
+Must use:
+```
+filter()
+```
+
+## Part 9 - Edit Student
+
+Every student has:
+```
+Edit
+```
+
+Clicking it:
+Shows inputs filled with current values.
+
+Update button:
+```
+Save
+```
+
+Must use:
+```
+map()
+```
+
+## Part 10 - Conditional Rendering
+
+If:
+```
+students.length === 0
+```
+Show:
 ```
 No Students Found
 ```
-Otherwise, render the list normally.
+Otherwise:
+Display list.
 
-**Q12.** If a search produces zero matches (but students exist overall), display a **different** message:
+Also:
+If searching returns nothing, show:
 ```
 No Matching Students
 ```
-Explain briefly (in a comment) why this needs a separate condition from Q11.
 
----
+## Part 11 - Events
 
-## Section F: Component Architecture & Props
+Use:
+```
+onClick
+onChange
+onSubmit
+```
 
-**Q13.** Split your app into at least these components:
+## Part 12 - Multiple State
+
+Use multiple states:
+```
+students
+search
+loading
+error
+newName
+newEmail
+newPhone
+editingStudent
+darkMode
+```
+
+## Part 13 - Forms
+
+Use controlled inputs:
+```
+value
+onChange
+```
+No uncontrolled inputs.
+
+## Part 14 - Props
+
+Create:
+```
+App
+```
+↓
+```
+StudentList
+```
+↓
+```
+StudentCard
+```
+
+Pass data through props.
+
+## Part 15 - Lifting State Up
+
+Delete, Edit, Update must happen in:
 ```
 App.jsx
- └── StudentList.jsx
-      └── StudentCard.jsx
-StudentForm.jsx
-SearchBar.jsx
 ```
-Pass student data down via **props** — do not fetch or store the student list inside `StudentCard`.
 
-**Q14.** Apply **lifting state up**: `deleteStudent`, `editStudent`/`updateStudent`, and `addStudent` functions must be defined in `App.jsx` and passed down as props to the components that trigger them (e.g., the delete button lives in `StudentCard`, but the actual deletion logic lives in `App.jsx`).
+Pass functions like:
+```
+deleteStudent
+updateStudent
+addStudent
+```
+to child components.
+
+## Part 16 - Dark Mode
+
+Button:
+```
+Dark Mode
+```
+
+Clicking:
+Changes the entire app theme.
+
+Hint:
+```jsx
+const [darkMode, setDarkMode] = useState(false);
+```
+
+## Part 17 - Student Count
+
+Top of page:
+```
+Total Students: 12
+```
+
+Automatically updates.
+
+## Part 18 - Highlight Search
+
+Searching
+```
+john
+```
+Matching card gets a different background color.
+
+## Part 19 - Sort
+
+Buttons:
+```
+A-Z
+Z-A
+```
+Sort students alphabetically.
+
+## Part 20 - Reset
+
+Button:
+```
+Reset
+```
+
+Clears:
+- search
+- form
+- edit mode
 
 ---
 
-## Section G: Extra Features
-
-**Q15.** Add a **Dark Mode** toggle button that switches the whole app's theme using a `darkMode` state variable.
-
-**Q16.** Display a live student counter at the top of the page, e.g. `Total Students: 8`, that updates automatically as students are added/deleted.
-
-**Q17.** When searching, give the matching student card(s) a different background color to visually highlight the match.
-
-**Q18.** Add **A–Z** and **Z–A** buttons that sort the student list alphabetically by name.
-
-**Q19.** Add a **Reset** button that clears the search box, clears the add-student form, and exits edit mode — all in one click.
-
----
-
-## Bonus Challenge (optional)
-
-Choose **one**:
-- (a) Add form validation (e.g., valid email format, no empty name field) with inline error messages.
-- (b) Persist students to `localStorage` so the list survives a page refresh.
-- (c) Add a "View Details" modal/panel showing the student's company and address (both available in the API response).
-
----
-
-## Required Folder Structure
+## Suggested Folder Structure
 
 ```
 src/
-  components/
+
+components/
+
     StudentList.jsx
     StudentCard.jsx
     StudentForm.jsx
     SearchBar.jsx
-  App.jsx
-```
 
-## Submission Checklist
-- [ ] App runs with `npm start` / `npm run dev` without errors
-- [ ] All state variables use `useState` (students, search, loading, error, newName, newEmail, newPhone, editingStudent, darkMode)
-- [ ] All inputs are controlled (no uncontrolled inputs)
-- [ ] Used `onClick`, `onChange`, and `onSubmit` at least once each
-- [ ] Code is committed with meaningful commit messages (if using Git)
-- [ ] Short README explaining how to run the project
+App.jsx
+```
