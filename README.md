@@ -1,343 +1,512 @@
 # React.js Assignment
-## Student Directory Dashboard
+# Student Directory Dashboard
 
-**Course:** React.js 
-**Submission Format:** GitHub repo link
+**Course:** React.js  
+**Submission:** GitHub Repository Link
 
-### Git Clone
-```
+---
+
+# Clone the Starter Project
+
+```bash
 git clone https://arifulatwork-admin@bitbucket.org/arifulatwork-admin/react-js.git
 ```
 
-### Free API
+---
+
+# API
+
+Use the following free API:
+
 ```
 https://jsonplaceholder.typicode.com/users
 ```
 
-This API returns 10 users with:
+The API returns a list of users with the following information:
+
 - id
 - name
+- username
 - email
 - phone
 - website
 - company
 - address
 
-### Objective
-Build a Student Directory where users can:
-- Fetch students from an API
-- Search students
-- Add new students
-- Edit students
-- Delete students
-- Show student details
-- Filter students
-- Toggle dark mode
-- Show loading
-- Show errors
-- Share data between components
+---
 
-### Instructions
-1. Complete every part below in your own project.
-2. Follow the folder structure given at the end.
-3. Do not hard-code student data: everything must come from state and the API.
-4. Comment your code where the logic may not be obvious.
+# Project Objective
+
+Build a **Student Directory Dashboard** using React.js.
+
+The application should demonstrate your understanding of:
+
+- useState
+- useEffect
+- Fetch API
+- Events
+- Forms
+- Input Handling
+- Arrays
+- map()
+- filter()
+- Conditional Rendering
+- Props
+- Lifting State Up
+- Multiple State Variables
 
 ---
 
-## Part 1 - Fetch Data (useEffect + API)
+# Rules
 
-When the page loads:
-- fetch users from the API
-- save them in state
+- Do **not** hard-code student data.
+- Fetch all students from the API.
+- Use React functional components.
+- Use Hooks only.
+- Keep your code clean and organized.
+- Comment your code where necessary.
+- Follow the folder structure below.
+
+---
+
+# Part 1 — Fetch Students
+
+When the application loads:
+
+- Fetch student data from the API.
+- Store the data inside React state.
+- Use `useEffect()`.
 
 Example:
+
 ```jsx
 useEffect(() => {
   fetch("https://jsonplaceholder.typicode.com/users")
-    .then(res => res.json())
-    .then(data => setStudents(data));
+    .then((response) => response.json())
+    .then((data) => setStudents(data));
 }, []);
 ```
 
-## Part 2 - Loading Screen
+---
 
-While fetching, show:
+# Part 2 — Loading State
+
+While the data is loading, display:
+
 ```
 Loading Students...
 ```
-When finished, display students.
 
-## Part 3 - Error Handling
+Once the data is loaded, display the student list.
 
-If the API fails, show:
+---
+
+# Part 3 — Error Handling
+
+If the API request fails, display:
+
 ```
 Something went wrong.
 ```
 
-## Part 4 - Display Students (map)
+---
 
-Display:
-```
-Ahmed
-[email protected]
-0123456789
+# Part 4 — Display Students
 
-John
-[email protected]
-...
-```
+Display every student using:
 
-Must use:
-```
+```jsx
 map()
 ```
 
-## Part 5 - Search Student
+Each student card should show:
 
-Create:
+- Name
+- Email
+- Phone
+
+Example:
+
+```
+Leanne Graham
+
+[email@example.com]
+
+1-770-736-8031
+```
+
+---
+
+# Part 5 — Search Students
+
+Create a search input.
+
+Users should be able to search students by **name**.
+
+Use:
+
 ```jsx
-<input />
-```
-
-Search by:
-- name
-
-Must use:
-```
 filter()
 ```
 
 Example:
-Typing
+
+Searching:
+
 ```
 Lea
 ```
-Shows only
+
+Should display:
+
 ```
 Leanne Graham
 ```
 
-## Part 6 - Case Insensitive Search
+---
 
-Searching
+# Part 6 — Case-Insensitive Search
+
+Searching:
+
 ```
-leanne
+john
 ```
+
 should still find
+
 ```
-Leanne Graham
+John
 ```
 
 Hint:
-```
+
+```jsx
 toLowerCase()
 ```
 
-## Part 7 - Add Student
+---
 
-Create a form.
+# Part 7 — View Student Details
 
-Inputs:
-```
-Name
-Email
-Phone
-```
+Each student card should contain a button:
 
-Button:
 ```
-Add Student
+View Details
 ```
 
-After clicking:
-The new student appears instantly.
+Clicking the button should display additional information:
 
-## Part 8 - Delete Student
+- Username
+- Company
+- Website
+- Address
 
-Every card has:
+Clicking it again should hide the information.
+
+Use **Conditional Rendering**.
+
+---
+
+# Part 8 — Filter Students
+
+Allow users to filter students by company.
+
+Example:
+
 ```
-Delete
-```
-
-Button:
-Remove that student.
-
-Must use:
-```
-filter()
-```
-
-## Part 9 - Edit Student
-
-Every student has:
-```
-Edit
+All Companies
 ```
 
-Clicking it:
-Shows inputs filled with current values.
+↓
 
-Update button:
 ```
-Save
+Romaguera-Crona
 ```
 
-Must use:
-```
-map()
-```
+Only students from the selected company should be displayed.
 
-## Part 10 - Conditional Rendering
+---
 
-If:
-```
+# Part 9 — Conditional Rendering
+
+If there are no students:
+
+```jsx
 students.length === 0
 ```
-Show:
+
+Display:
+
 ```
 No Students Found
 ```
-Otherwise:
-Display list.
 
-Also:
-If searching returns nothing, show:
+If searching or filtering returns no results, display:
+
 ```
 No Matching Students
 ```
 
-## Part 11 - Events
+---
 
-Use:
-```
-onClick
-onChange
-onSubmit
+# Part 10 — Events
+
+Your application must use:
+
+- onClick
+- onChange
+
+---
+
+# Part 11 — Multiple State Variables
+
+Your application should include multiple state variables.
+
+Example:
+
+```jsx
+const [students, setStudents] = useState([]);
+const [search, setSearch] = useState("");
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState("");
+const [selectedCompany, setSelectedCompany] = useState("All");
+const [expandedStudent, setExpandedStudent] = useState(null);
+const [darkMode, setDarkMode] = useState(false);
+const [sortOrder, setSortOrder] = useState("asc");
 ```
 
-## Part 12 - Multiple State
+---
 
-Use multiple states:
-```
-students
-search
-loading
-error
-newName
-newEmail
-newPhone
-editingStudent
-darkMode
-```
+# Part 12 — Controlled Input
 
-## Part 13 - Forms
+Use controlled inputs.
 
-Use controlled inputs:
-```
+Every input must use:
+
+```jsx
 value
+```
+
+and
+
+```jsx
 onChange
 ```
-No uncontrolled inputs.
 
-## Part 14 - Props
+---
 
-Create:
+# Part 13 — Props
+
+Create the following component structure.
+
 ```
 App
-```
-↓
-```
-StudentList
-```
-↓
-```
-StudentCard
+│
+├── SearchBar
+├── FilterBar
+└── StudentList
+      │
+      └── StudentCard
 ```
 
-Pass data through props.
+Pass data between components using **Props**.
 
-## Part 15 - Lifting State Up
+---
 
-Delete, Edit, Update must happen in:
-```
-App.jsx
-```
+# Part 14 — Lifting State Up
 
-Pass functions like:
-```
-deleteStudent
-updateStudent
-addStudent
-```
-to child components.
+The following state should live inside **App.jsx**:
 
-## Part 16 - Dark Mode
+- students
+- search
+- selectedCompany
+- expandedStudent
+- darkMode
+- sortOrder
 
-Button:
+Pass data and functions down to child components using props.
+
+---
+
+# Part 15 — Dark Mode
+
+Create a button.
+
 ```
 Dark Mode
 ```
 
-Clicking:
-Changes the entire app theme.
+Clicking it should toggle the application's theme.
 
-Hint:
+Example:
+
 ```jsx
 const [darkMode, setDarkMode] = useState(false);
 ```
 
-## Part 17 - Student Count
+---
 
-Top of page:
+# Part 16 — Student Count
+
+Display the total number of visible students.
+
+Example:
+
 ```
-Total Students: 12
+Total Students: 10
 ```
 
-Automatically updates.
+The count should automatically update after searching or filtering.
 
-## Part 18 - Highlight Search
+---
 
-Searching
+# Part 17 — Highlight Search Results
+
+When searching:
+
 ```
 john
 ```
-Matching card gets a different background color.
 
-## Part 19 - Sort
+Highlight matching student cards with a different background color.
 
-Buttons:
+---
+
+# Part 18 — Sort Students
+
+Create two buttons.
+
 ```
 A-Z
+```
+
+```
 Z-A
 ```
-Sort students alphabetically.
 
-## Part 20 - Reset
+Sort students alphabetically by **name**.
 
-Button:
+---
+
+# Part 19 — Refresh Data
+
+Create a button.
+
+```
+Refresh
+```
+
+Clicking the button should fetch the latest data from the API again.
+
+---
+
+# Part 20 — Reset
+
+Create a button.
+
 ```
 Reset
 ```
 
-Clears:
-- search
-- form
-- edit mode
+Clicking the button should reset:
+
+- Search
+- Filter
+- Sort
+- Expanded Details
 
 ---
 
-## Suggested Folder Structure
+# Suggested Folder Structure
 
 ```
 src/
-
-components/
-
-    StudentList.jsx
-    StudentCard.jsx
-    StudentForm.jsx
-    SearchBar.jsx
-
-App.jsx
+│
+├── components/
+│   ├── SearchBar.jsx
+│   ├── FilterBar.jsx
+│   ├── StudentList.jsx
+│   └── StudentCard.jsx
+│
+├── App.jsx
+├── main.jsx
+└── index.css
 ```
+
+---
+
+# React Concepts Covered
+
+| Topic | Required |
+|---------|----------|
+| Components | ✅ |
+| JSX | ✅ |
+| useState | ✅ |
+| useEffect | ✅ |
+| Fetch API | ✅ |
+| Events | ✅ |
+| Input Handling | ✅ |
+| Controlled Components | ✅ |
+| Conditional Rendering | ✅ |
+| Arrays | ✅ |
+| map() | ✅ |
+| filter() | ✅ |
+| Props | ✅ |
+| Lifting State Up | ✅ |
+| Multiple State Variables | ✅ |
+| Search | ✅ |
+| Filtering | ✅ |
+| Sorting | ✅ |
+
+---
+
+# Submission
+
+Submit your assignment by providing:
+
+- GitHub Repository Link
+
+---
+
+# Bonus (Optional)
+
+Complete any **two** of the following:
+
+### ⭐ Favorite Students
+
+Allow users to mark students as favorites.
+
+---
+
+### ⭐ Search by Email
+
+Search students using both **name** and **email**.
+
+---
+
+### ⭐ Grid/List View
+
+Add buttons to switch between Grid View and List View.
+
+---
+
+### ⭐ Copy Email
+
+Add a button that copies the student's email to the clipboard.
+
+---
+
+### ⭐ Student Profile Modal
+
+Instead of expanding the card, open a modal showing the student's full information.
+
+---
+
+### ⭐ Responsive Design
+
+Make the application look good on desktop, tablet, and mobile devices.
+
+---
+
+Good luck and happy coding! 🚀
