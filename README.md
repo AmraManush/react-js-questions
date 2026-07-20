@@ -40,7 +40,7 @@ Build a Student Directory where users can:
 ### Instructions
 1. Complete every part below in your own project.
 2. Follow the folder structure given at the end.
-3. Do not hard-code student data — everything must come from state and the API.
+3. Do not hard-code student data: everything must come from state and the API.
 4. Comment your code where the logic may not be obvious.
 
 ---
