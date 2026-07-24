@@ -1,5 +1,6 @@
+````md
 # React.js Assignment
-# Flight Booking Dashboard using React Context API
+# Flight Search Dashboard with Context API & Custom Hooks
 
 **Course:** React.js
 
@@ -7,259 +8,276 @@
 
 ---
 
-# Objective
+# API
 
-In this assignment, you will enhance your previous **Flight Search Dashboard** by implementing **React Context API**.
+Use the following free API (no API key required):
 
-The goal is to replace prop drilling with shared state using:
+```
+https://raw.githubusercontent.com/mwgg/Airports/master/airports.json
+```
 
-- createContext()
-- Provider
-- useContext()
+This returns a JSON object of airports keyed by ICAO code.
 
-You should continue using the project you built in the previous assignment.
+Example:
+
+```json
+"KJFK": {
+  "icao": "KJFK",
+  "iata": "JFK",
+  "name": "John F Kennedy International Airport",
+  "city": "New York",
+  "country": "US",
+  "lat": 40.63980103,
+  "lon": -73.77890015
+}
+```
+
+Only airports with an **IATA code** should be used.
 
 ---
 
-# Learning Outcomes
+# Project Objective
 
-After completing this assignment, you should understand:
+Build a **Flight Search Dashboard** similar to Google Flights.
 
-- Creating a Context
-- Sharing data using Provider
-- Accessing shared data with useContext()
-- Updating shared state
-- Avoiding Prop Drilling
-- Managing global application state
+This project demonstrates your understanding of:
+
+- Components
+- JSX
+- useState
+- useEffect
+- Fetch API
+- Events
+- Forms
+- Controlled Inputs
+- Arrays
+- map()
+- filter()
+- sort()
+- Props
+- Lifting State Up
+- Context API
+- Custom Hooks
 
 ---
 
 # Rules
 
-- Continue using your previous Flight Search project.
-- Do not remove any existing functionality.
-- Replace shared props with Context where appropriate.
-- Use React Functional Components.
+- Use Functional Components only.
 - Use React Hooks only.
-- Write clean and readable code.
-- Comment important sections of your code.
+- Do not hard-code airport data.
+- Fetch airport data from the API.
+- Organize your code properly.
+- Add comments where necessary.
+- Use Context API where required.
+- Create reusable Custom Hooks.
 
 ---
 
-# Part 1 — Theme Context
+# Part 1 — Fetch Airports
 
-Create a Theme Context.
+When the application starts:
 
-### Default Theme
+- Fetch airport data.
+- Convert the object into an array.
+- Filter airports that have an IATA code.
+- Store the result in state.
 
-```
-Light
-```
-
-Create a button:
-
-```
-Toggle Theme
-```
-
-The button should switch between:
-
-```
-Light
-
-↓
-
-Dark
-
-↓
-
-Light
-```
-
-The current theme should be displayed in:
-
-- Navbar
-- Search Form
-- Flight Results
-- Booking Summary
-
----
-
-# Part 2 — User Context
-
-Create a User Context.
-
-Store the following user information:
+Use:
 
 ```jsx
-{
-  name: "John Doe",
-  email: "john@gmail.com"
-}
+useEffect()
 ```
-
-Display the logged-in user inside:
-
-- Navbar
-- Search Form
-- Booking Summary
-
-Do **not** pass the user through props.
 
 ---
 
-# Part 3 — Booking Context
+# Part 2 — Loading State
 
-Create a Booking Context.
+Display
 
-Store:
+```
+Loading Airports...
+```
+
+while fetching data.
+
+---
+
+# Part 3 — Error Handling
+
+Display
+
+```
+Something went wrong.
+```
+
+if the request fails.
+
+---
+
+# Part 4 — Airport Search
+
+Create two search inputs.
+
+- From
+- To
+
+As the user types (minimum 2 characters):
+
+Search using:
+
+- Airport Name
+- City
+- IATA Code
+
+Use:
 
 ```jsx
-selectedFlight
+filter()
 ```
 
-Default value:
+---
+
+# Part 5 — Case-Insensitive Search
+
+Searching
+
+```
+london
+```
+
+should also return
+
+```
+London Heathrow Airport
+```
+
+Hint:
 
 ```jsx
-null
+toLowerCase()
 ```
 
 ---
 
-# Part 4 — Book Flight
+# Part 6 — Airport Selection
 
-Each Flight Card should contain a button.
+When a suggestion is clicked:
 
-```
-Book Flight
-```
-
-When clicked:
-
-- Save the selected flight into Booking Context.
-- The Booking Summary should update automatically.
+- Fill the input
+- Save the selected airport
+- Close suggestions
 
 ---
 
-# Part 5 — Booking Summary
+# Part 7 — Departure Date
 
-Create a component:
+Create a controlled input:
+
+```html
+<input type="date">
+```
+
+---
+
+# Part 8 — Calculate Distance
+
+Calculate the real distance between airports using the Haversine Formula.
+
+---
+
+# Part 9 — Generate Mock Flights
+
+Clicking
 
 ```
-BookingSummary.jsx
+Search Flights
 ```
 
-Display:
+should generate **5–8 mock flight offers**.
+
+Each flight must contain:
 
 - Airline
 - Flight Number
-- Departure Airport
-- Destination Airport
+- Aircraft
+- Stops
+- Duration
 - Departure Time
 - Arrival Time
-- Total Price
+- Class
+- Status
+- Price
+- Distance
 
-If no booking exists, display:
+---
+
+# Part 10 — Conditional Rendering
+
+Before searching
 
 ```
-No Flight Selected
+Search for flights
+```
+
+If no flights
+
+```
+No flights found.
 ```
 
 ---
 
-# Part 6 — Favorite Flights
+# Part 11 — Events
 
-Create a Favorites Context.
+Your application must use
 
-Store:
+- onClick
+- onChange
+- onSubmit
+
+---
+
+# Part 12 — Multiple State Variables
+
+Example
 
 ```jsx
-favorites = []
-```
+const [airports, setAirports] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState("");
 
-Each Flight Card should include:
+const [origin, setOrigin] = useState(null);
+const [destination, setDestination] = useState(null);
 
-```
-❤️ Add Favorite
-```
+const [date, setDate] = useState("");
 
-Clicking the button should add the flight to the Favorites list.
+const [flights, setFlights] = useState([]);
 
----
+const [sortBy, setSortBy] = useState("price");
 
-# Part 7 — Favorite Flights Component
-
-Create:
-
-```
-Favorites.jsx
-```
-
-Display every favorite flight.
-
-Example:
-
-```
-Favorite Flights
-
-Qatar Airways
-
-QR201
-
-$520
+const [searched, setSearched] = useState(false);
 ```
 
 ---
 
-# Part 8 — Remove Favorite
+# Part 13 — Controlled Components
 
-Each favorite flight should include:
+Every input must use
 
+```jsx
+value
 ```
-Remove
-```
 
-Clicking Remove should delete the flight from Favorites.
+and
+
+```jsx
+onChange
+```
 
 ---
 
-# Part 9 — Navbar
-
-The Navbar should display:
-
-```
-Welcome John Doe
-
-Theme : Light
-
-Bookings : 2
-
-Favorites : 5
-```
-
-All information must come from Context.
-
----
-
-# Part 10 — Theme Styling
-
-When the theme changes:
-
-Light Theme
-
-- White background
-- Black text
-
-Dark Theme
-
-- Dark background
-- White text
-
-The theme should update every component automatically.
-
----
-
-# Part 11 — Component Structure
+# Part 14 — Component Structure
 
 ```
 App
@@ -267,45 +285,335 @@ App
 ├── Navbar
 │
 ├── SearchForm
+│     │
+│     └── AirportInput
 │
-├── FlightResults
+├── ResultsList
 │     │
 │     └── FlightCard
 │
-├── BookingSummary
-│
-├── Favorites
-│
-└── ThemeButton
+└── BookingSummary
 ```
 
 ---
 
-# Part 12 — Folder Structure
+# Part 15 — Lifting State Up
+
+Store these inside App.jsx
+
+- airports
+- origin
+- destination
+- flights
+- date
+- sortBy
+
+Pass them through Props where necessary.
+
+---
+
+# Part 16 — Swap Airports
+
+Create a
+
+```
+Swap
+```
+
+button.
+
+Swap:
+
+```
+From
+
+↓
+
+To
+```
+
+---
+
+# Part 17 — Result Count
+
+Display
+
+```
+7 Flights Found
+```
+
+---
+
+# Part 18 — Sort Flights
+
+Allow users to sort by
+
+- Price
+- Duration
+
+Use
+
+```jsx
+sort()
+```
+
+---
+
+# Part 19 — Flight Details
+
+Each card should display
+
+- Airline
+- Flight Number
+- Aircraft
+- Stops
+- Distance
+- Duration
+- Price
+- Class
+- Status
+
+---
+
+# Part 20 — Search Again
+
+Every new search should replace previous results.
+
+---
+
+# Part 21 — Context API (Theme)
+
+Create
+
+```
+ThemeContext
+```
+
+Store
+
+```jsx
+theme
+```
+
+Default:
+
+```
+Light
+```
+
+Create a button
+
+```
+Toggle Theme
+```
+
+The theme should update:
+
+- Navbar
+- Search Form
+- Results
+- Booking Summary
+
+without using props.
+
+---
+
+# Part 22 — Context API (User)
+
+Create
+
+```
+UserContext
+```
+
+Store
+
+```jsx
+{
+    name:"John Doe",
+    email:"john@gmail.com"
+}
+```
+
+Display the logged-in user inside:
+
+- Navbar
+- Booking Summary
+
+Do **not** use props.
+
+---
+
+# Part 23 — Context API (Booking)
+
+Create
+
+```
+BookingContext
+```
+
+Store
+
+```jsx
+selectedFlight
+```
+
+Initially
+
+```jsx
+null
+```
+
+Each Flight Card must contain
+
+```
+Book Flight
+```
+
+Clicking the button updates Booking Context.
+
+Booking Summary updates automatically.
+
+---
+
+# Part 24 — Custom Hook (useAirports)
+
+Move all airport fetching logic into
+
+```
+useAirports.js
+```
+
+The hook should:
+
+- Fetch airports
+- Handle loading
+- Handle errors
+- Return airport data
+
+Example
+
+```jsx
+const {
+    airports,
+    loading,
+    error
+} = useAirports();
+```
+
+---
+
+# Part 25 — Custom Hook (useFlightSearch)
+
+Create
+
+```
+useFlightSearch.js
+```
+
+The hook should contain all search logic.
+
+Responsibilities:
+
+- Search airports
+- Generate flights
+- Calculate distance
+- Sort flights
+
+Example
+
+```jsx
+const {
+    flights,
+    searchFlights,
+    sortFlights
+} = useFlightSearch();
+```
+
+---
+
+# Part 26 — Custom Hook (useToggle)
+
+Create
+
+```
+useToggle.js
+```
+
+Use it for
+
+- Theme Button
+- Show/Hide Booking Summary
+- Show/Hide Favorites
+
+Example
+
+```jsx
+const {
+    value,
+    toggle
+} = useToggle();
+```
+
+---
+
+# Part 27 — Reuse Custom Hooks
+
+Your project **must** use your custom hooks in multiple components.
+
+Example
+
+```
+Navbar
+
+↓
+
+useToggle()
+
+-------------------
+
+SearchForm
+
+↓
+
+useAirports()
+
+-------------------
+
+ResultsList
+
+↓
+
+useFlightSearch()
+```
+
+---
+
+# Suggested Folder Structure
 
 ```
 src/
 │
 ├── components/
 │   ├── Navbar.jsx
+│   ├── AirportInput.jsx
 │   ├── SearchForm.jsx
-│   ├── FlightResults.jsx
+│   ├── ResultsList.jsx
 │   ├── FlightCard.jsx
-│   ├── BookingSummary.jsx
-│   ├── Favorites.jsx
-│   └── ThemeButton.jsx
+│   └── BookingSummary.jsx
 │
 ├── context/
 │   ├── ThemeContext.jsx
 │   ├── UserContext.jsx
-│   ├── BookingContext.jsx
-│   └── FavoritesContext.jsx
+│   └── BookingContext.jsx
 │
-├── providers/
-│   ├── ThemeProvider.jsx
-│   ├── UserProvider.jsx
-│   ├── BookingProvider.jsx
-│   └── FavoritesProvider.jsx
+├── hooks/
+│   ├── useAirports.js
+│   ├── useFlightSearch.js
+│   └── useToggle.js
+│
+├── utils/
+│   └── flightUtils.js
 │
 ├── App.jsx
 ├── main.jsx
@@ -314,151 +622,29 @@ src/
 
 ---
 
-# Part 13 — Providers
+# React Concepts Covered
 
-Wrap the application using Providers.
-
-Example:
-
-```jsx
-<UserProvider>
-    <ThemeProvider>
-        <BookingProvider>
-            <FavoritesProvider>
-
-                <App />
-
-            </FavoritesProvider>
-        </BookingProvider>
-    </ThemeProvider>
-</UserProvider>
-```
-
----
-
-# Part 14 — Context API Requirements
-
-Your project must use:
-
-| Feature | Required |
-|----------|----------|
+| Topic | Required |
+|---------|----------|
+| Components | ✅ |
+| JSX | ✅ |
+| useState | ✅ |
+| useEffect | ✅ |
+| Fetch API | ✅ |
+| Events | ✅ |
+| Controlled Components | ✅ |
+| Conditional Rendering | ✅ |
+| map() | ✅ |
+| filter() | ✅ |
+| sort() | ✅ |
+| Props | ✅ |
+| Lifting State Up | ✅ |
+| Context API | ✅ |
 | createContext() | ✅ |
 | Provider | ✅ |
 | useContext() | ✅ |
-| useState() | ✅ |
-| Events | ✅ |
-| Conditional Rendering | ✅ |
-| Arrays | ✅ |
-| map() | ✅ |
-| Props | Minimal |
-| Context API | ✅ |
-
----
-
-# Part 15 — Do Not Use Props
-
-The following data **must come from Context** instead of props.
-
-- Theme
-- Logged-in User
-- Selected Flight
-- Favorite Flights
-
----
-
-# Bonus (Complete Any Two)
-
-### ⭐ Booking History
-
-Keep a history of booked flights.
-
----
-
-### ⭐ Search History
-
-Display the last five searches.
-
----
-
-### ⭐ Recently Viewed Flights
-
-Display the last viewed flights.
-
----
-
-### ⭐ Clear Favorites
-
-Add a button to remove every favorite.
-
----
-
-### ⭐ Responsive Design
-
-Make the application responsive for:
-
-- Desktop
-- Tablet
-- Mobile
-
----
-
-### ⭐ Dark Mode Styling
-
-Apply different colors and styles for Light and Dark themes.
-
----
-
-# Expected Output
-
-```
-------------------------------------------------
-
-Welcome John Doe
-
-Theme : Dark
-
-Bookings : 2
-
-Favorites : 5
-
-------------------------------------------------
-
-Search Flights
-
-------------------------------------------------
-
-Flight Results
-
-✈️ Qatar Airways
-
-Book Flight
-
-❤️ Favorite
-
-------------------------------------------------
-
-Booking Summary
-
-Qatar Airways
-
-QR201
-
-Dubai → London
-
-$520
-
-------------------------------------------------
-
-Favorite Flights
-
-Emirates
-
-British Airways
-
-Qatar Airways
-
-------------------------------------------------
-```
+| Custom Hooks | ✅ |
+| Reusable Logic | ✅ |
 
 ---
 
@@ -470,25 +656,80 @@ Submit:
 
 ---
 
+# Bonus (Complete Any Two)
+
+### ⭐ Round Trip
+
+Generate return flights.
+
+---
+
+### ⭐ Passenger Count
+
+Allow users to select passengers.
+
+---
+
+### ⭐ Favorites
+
+Save favorite flights using Context API.
+
+---
+
+### ⭐ Search History
+
+Store the last five searches using Context API.
+
+---
+
+### ⭐ Recently Booked Flights
+
+Display the most recently booked flight.
+
+---
+
+### ⭐ Filter by Stops
+
+Nonstop
+
+1 Stop
+
+2 Stops
+
+---
+
+### ⭐ Price Range
+
+Filter by price.
+
+---
+
+### ⭐ Responsive Design
+
+Desktop
+
+Tablet
+
+Mobile
+
+---
+
 # Grading Criteria
 
 | Criteria | Marks |
 |-----------|-------|
-| Context API Implementation | 25 |
-| Correct Use of Provider | 10 |
-| useContext Usage | 15 |
-| Theme Context | 10 |
-| Booking Context | 10 |
-| Favorites Context | 10 |
-| Code Quality | 10 |
-| UI & Functionality | 10 |
-| Project Structure | 10 |
+| React Fundamentals | 20 |
+| Flight Search Features | 20 |
+| Props & Components | 10 |
+| Context API | 20 |
+| Custom Hooks | 15 |
+| UI & Responsiveness | 10 |
+| Code Quality & Comments | 5 |
 | **Total** | **100 Marks** |
 
 ---
 
-# Good Luck!
+# Good Luck! ✈️
 
-This assignment focuses on using **React Context API** to share data across multiple components without prop drilling while extending your existing Flight Search Dashboard.
-
-**Happy Coding! 🚀✈️**
+This assignment is designed to help you build a **real-world React application** while practicing **Props, Lifting State Up, Context API, and Custom Hooks** together in a single project.
+````
